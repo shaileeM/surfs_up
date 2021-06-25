@@ -58,3 +58,14 @@ def stations():
     #now unravel the result into 1d array
     stations = list(np.ravel(results))
     return jsonify(stations=stations)
+
+#create temperature route
+@app.route("/api/v1.0/tobs")
+
+def temp_monthly():
+    prev_year = dt.date(2017, 8, 23) - dt.timedelta(days=365)
+    #query the primary station for all the temp obv from the prev year
+    results= session.query(Measurement.tobs).filter(Measurement.station=='USC00519281').\
+                                             filter(Measurement.date>=prev_year).all()
+    temps = list(np.ravel(results))
+    return jsonify(temps=temps)
