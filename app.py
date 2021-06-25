@@ -49,3 +49,12 @@ def precipitation():
     #create dictionary with date as key and precipitaion as value
     precip={date: prcp for date, prcp in precipitation}
     return jsonify(precip)
+
+#create station route(return list of all the stations)
+@app.route("/api/v1.0/stations")
+
+def stations():
+    results=session.query(Station.station).all()
+    #now unravel the result into 1d array
+    stations = list(np.ravel(results))
+    return jsonify(stations=stations)
